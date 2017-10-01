@@ -59,7 +59,7 @@ RUN dpkg --add-architecture i386 \
 	&& echo TERM=xterm >> /etc/environment \
 
 	# clear
-	&& apt-get purge -y --auto-remove wget ca-certificates xfonts-utils cabextract locales \
+	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 
 ENV LANG ru_RU.utf8
