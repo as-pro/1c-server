@@ -4,7 +4,7 @@ ENV GOSU_VERSION 1.7
 
 ENV ARCH1C=i386 \
     DIR1C=/opt/1C/v8.3/i386 \
-    RAGENT=$DIR1C/ragent
+    RAGENT=/opt/1C/v8.3/i386/ragent
 
 RUN dpkg --add-architecture i386 \
     && set -x \
