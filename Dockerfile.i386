@@ -6,7 +6,7 @@ ENV ARCH1C=i386 \
     DIR1C=/opt/1C/v8.3/i386 \
     RAGENT=$DIR1C/ragent
 
-RUN if [ $ARCH1C -eq "i386" ]; then dpkg --add-architecture i386; fi \
+RUN dpkg --add-architecture i386 \
     && set -x \
     && apt-get update \
     && deps1c=" \
