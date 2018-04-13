@@ -1,5 +1,11 @@
 #!/bin/bash
-set -e
+
+set -xe
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- ragent "$@"
+fi
 
 if [ "$1" = 'ragent' ]; then
 
