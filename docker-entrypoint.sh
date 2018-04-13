@@ -37,6 +37,18 @@ if [ "$1" = 'ragent' ]; then
     chmod 766 /home/usr1cv8
     chown -R usr1cv8:grp1cv8 /home/usr1cv8
 
+    DEBUG=${DEBUG:=0}
+    if [[ "$DEBUG" == "1" || "$DEBUG" == "true"  || "$DEBUG" == "on" ]]; then
+        DEBUG=1
+        echo "Enable 1c debug"
+        RAGENT="$RAGENT -debug"
+    fi
+
+    if [[ "$DEBUG" == "1" && "$DEBUG_MODE" == "http" ]]; then
+        echo "Enable 1c http debug"
+        RAGENT="$RAGENT -http"
+    fi
+
     echo "run agent"
     exec gosu usr1cv8 $RAGENT
 
