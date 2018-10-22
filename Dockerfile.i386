@@ -10,6 +10,7 @@ RUN dpkg --add-architecture i386 \
     && set -x \
     && apt-get update \
     && deps1c=" \
+        ca-certificates \
         imagemagick:$ARCH1C \
         imagemagick-6.q16:$ARCH1C \
         unixodbc:$ARCH1C \
@@ -17,7 +18,6 @@ RUN dpkg --add-architecture i386 \
         libgsf-bin:$ARCH1C \
     " \
     && buildDeps=' \
-        ca-certificates \
         wget \
         xfonts-utils \
         cabextract \

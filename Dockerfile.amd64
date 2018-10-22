@@ -10,6 +10,7 @@ RUN if [ $ARCH1C -eq "i386" ]; then dpkg --add-architecture i386; fi \
     && set -x \
     && apt-get update \
     && deps1c=" \
+        ca-certificates \
         imagemagick:$ARCH1C \
         imagemagick-6.q16:$ARCH1C \
         unixodbc:$ARCH1C \
@@ -17,7 +18,6 @@ RUN if [ $ARCH1C -eq "i386" ]; then dpkg --add-architecture i386; fi \
         libgsf-bin:$ARCH1C \
     " \
     && buildDeps=' \
-        ca-certificates \
         wget \
         xfonts-utils \
         cabextract \
