@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -uxe
+
+for f in /docker-entrypoint-init.d/*.sh; do
+    echo "$0: running $f";
+    /bin/bash "$f";
+done
+
+exec /usr/bin/supervisord --nodaemon

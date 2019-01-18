@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -ue
+
+if [ "$#" -eq "0" ]; then
+    ARGS="-DFOREGROUND"
+else
+    ARGS="$@"
+fi
+
+APACHE_CONFDIR=${APACHE_CONFDIR:=/etc/apache2}
+APACHE_ENVVARS=${APACHE_ENVVARS:=/etc/apache2/envvars}
+if test -f ${APACHE_ENVVARS}; then
+  . ${APACHE_ENVVARS}
+fi
+
+HTTPD=${APACHE_HTTPD:-/usr/sbin/apache2}
+
+APACHE_RUN_DIR=${APACHE_RUN_DIR:-/var/run/apache2}
+APACHE_LOCK_DIR=${APACHE_LOCK_DIR:-/var/lock/apache2}
+APACHE_RUN_USER=${APACHE_RUN_USER:-www-data}
+APACHE_RUN_GROUP=${APACHE_RUN_GROUP:-www-data}
+
+[ ! -d ${APACHE_RUN_DIR} ] && mkdir -p ${APACHE_RUN_DIR}
+[ ! -d ${APACHE_LOCK_DIR} ] && mkdir ${APACHE_LOCK_DIR} && chown ${APACHE_RUN_USER} ${APACHE_LOCK_DIR}
+
+rm -f ${APACHE_RUN_DIR}/*ssl_scache*
+
+exec ${HTTPD} ${ARGS}

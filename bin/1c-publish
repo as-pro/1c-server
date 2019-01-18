@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -ue
+
+DB_NAME=${1:=""}
+
+if [[ -z "$DB_NAME" ]]; then
+    echo "usage: 1c-publish your_db_name"
+    exit 1
+fi
+
+DIR_1C_WEB=${DIR_1C_WEB:=${DIR_1C_USER}/web}
+DB_WEB_DIR=${DIR_1C_WEB}/${DB_NAME}/www
+DB_WEB_CONFIG=${DIR_1C_WEB}/${DB_NAME}/.conf
+
+if [[ -f ${DB_WEB_CONFIG} ]]; then
+    echo "Database ${DB_NAME} already published!"
+    exit 1
+fi
+
+if [[ ! -d DB_WEB_DIR ]]; then
+    mkdir -p ${DB_WEB_DIR}
+    chown 755 ${DB_WEB_DIR}
+fi
+
+touch ${DB_WEB_CONFIG}
+
+HOST_1C=${HOST_1C:="localhost"}
+WEBINST=${DIR_1C}/webinst
+${WEBINST} \
+  -publish \
+  -apache24 \
+  -wsdir ${DB_NAME} \
+  -dir ${DB_WEB_DIR} \
+  -confPath ${DB_WEB_CONFIG} \
+  -connstr "Srvr=${HOST_1C};Ref=${DB_NAME}"
+
+start-apache -k restart

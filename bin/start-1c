@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -uxe
+
+DEBUG=${DEBUG:=0}
+if [[ "$DEBUG" == "1" || "$DEBUG" == "true"  || "$DEBUG" == "on" ]]; then
+    DEBUG=1
+    echo "Enable 1c debug"
+    RAGENT="$RAGENT -debug"
+fi
+
+DEBUG_MODE=${DEBUG_MODE:=}
+if [[ "$DEBUG" == "1" && "$DEBUG_MODE" == "http" ]]; then
+    echo "Enable 1c http debug"
+    RAGENT="$RAGENT -http"
+fi
+
+echo "run agent"
+exec gosu usr1cv8 $RAGENT
